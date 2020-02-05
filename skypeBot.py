@@ -41,6 +41,7 @@ while (response != 'S' and response != 'N'):
     elif (response == 'N'): 
         #Fechar base de dados
         shelfFile.close()
+        exceptionContacts = [""]
     else: 
         print("Não entendi sua resposta!")
 
@@ -82,8 +83,10 @@ while True:
                 textInput.send_keys('Olá, tudo bem? Estou de férias, caso precise ajuda abra um chamado no site: https://empiricus.atlassian.net/servicedesk/customer/portal/2. Caso não consiga fazer o login, fale direto com outro colaborador do suporte: Fábio Valverde - fabio.valverde.')
                 time.sleep(2)
                 
-                pyautogui.press('esc')
-                pyautogui.press('enter')
+                buttonSend = browser.find_element_by_css_selector('body > div.app-container > div > div:nth-child(1) > div:nth-child(2) > div > div:nth-child(1) > div > div:nth-child(2) > div > div:nth-child(2) > div > div > div > div > div > div:nth-child(2) > div:nth-child(2) > div > div > div:nth-child(2)')
+                buttonSend.click()
+                # pyautogui.press('esc')
+                # pyautogui.press('enter')
                 time.sleep(5)
 
         except NoSuchElementException:
