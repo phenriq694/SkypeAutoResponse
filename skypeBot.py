@@ -8,7 +8,7 @@ regex = re.compile(r'\d mensagem nova')
 regex2 = re.compile(r'\d mensagens novas')
 
 # Teste para saber se a base de dados já existe ou não
-if os.path.exists('exception_contacts'):
+if os.path.exists('exception_contacts') or os.path.exists('exception_contacts.dat'):
     shelfFile = shelve.open('exception_contacts')
     exceptionContacts = shelfFile['contacts']
     message = shelfFile['message']
