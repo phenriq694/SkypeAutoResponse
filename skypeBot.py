@@ -41,9 +41,11 @@ while (response != 'S' and response != 'N'):
 
     if (response == 'S'): 
         print("Digite as exceções abaixo do jeito que está escrito no Skype e separado por vírgula: ")
-        groups = input()
+        groups = input().strip().replace(", ", ",")
         groupsArray = groups.split(',')
 
+        print(groups)
+        print(groupsArray)
         # Adicionar as exceções na base de dados
         shelfFile['contacts'] += groupsArray
 
@@ -84,6 +86,7 @@ while True:
                 for i in exceptionContacts:
                     if i == contactName[0]:
                         isAnException = True
+                        print('Exceção: ' + contactName[0])
                         break
                     else: 
                         isAnException = False
