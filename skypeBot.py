@@ -8,19 +8,33 @@ regex = re.compile(r'\d mensagem nova')
 regex2 = re.compile(r'\d mensagens novas')
 
 # Teste para saber se a base de dados já existe ou não
-if os.path.exists('exception_contacts.dat'):
+if os.path.exists('exception_contacts'):
     shelfFile = shelve.open('exception_contacts')
     exceptionContacts = shelfFile['contacts']
+    message = shelfFile['message']
 else:
     shelfFile = shelve.open('exception_contacts')
     shelfFile['contacts'] = []
-    exceptionContacts = shelfFile['contacts']
+    shelfFile['message'] = 'Olá, tudo bem? Estou de férias, caso precise ajuda abra um chamado no site: https://empiricus.atlassian.net/servicedesk/customer/portal/2. Caso não consiga fazer o login, fale direto com outro colaborador do suporte: Fábio Valverde - fabio.valverde.'
 
-# Definindo variável que vai armazenar uma resposta do usuário. 
+    exceptionContacts = shelfFile['contacts']
+    message = shelfFile['message']
+
 response = ''
 
 # Coletando as exceções de contatos com o usuário
 while (response != 'S' and response != 'N'):
+    print('Mensagem atual: ' + message)
+    print("Deseja alterar a mensagem? (S = Sim/ N = Não)")
+    response = input().upper() 
+
+    if (response == 'S'): 
+        print("Digite a nova mensagem: ")
+        shelfFile['message'] = input()
+        message = shelfFile['message']
+    elif (response != 'N'): 
+        print('Não entendi sua resposta...')
+
     print('Exceções: ' + ', '.join(exceptionContacts))
     print("Deseja adicionar alguma exceção? (S = Sim/ N = Não)")
     response = input().upper() 
@@ -44,6 +58,7 @@ while (response != 'S' and response != 'N'):
         exceptionContacts = [""]
     else: 
         print("Não entendi sua resposta!")
+
 
 # Inicialização do Skype
 browser = webdriver.Chrome()
@@ -80,7 +95,7 @@ while True:
                 elem.click()
                 
                 textInput = browser.find_element_by_css_selector('body > div.app-container > div > div:nth-child(1) > div:nth-child(2) > div > div:nth-child(1) > div > div:nth-child(2) > div > div:nth-child(2) > div > div > div > div > div > div:nth-child(2) > div:nth-child(2) > div > div > div:nth-child(1) > div > div > div > div > div:nth-child(2) > div:nth-child(3) > div > div > div:nth-child(2) > div > div > div > div > div > div > span > br')
-                textInput.send_keys('Olá, tudo bem? Estou de férias, caso precise ajuda abra um chamado no site: https://empiricus.atlassian.net/servicedesk/customer/portal/2. Caso não consiga fazer o login, fale direto com outro colaborador do suporte: Fábio Valverde - fabio.valverde.')
+                textInput.send_keys(message)
                 time.sleep(2)
                 
                 buttonSend = browser.find_element_by_css_selector('body > div.app-container > div > div:nth-child(1) > div:nth-child(2) > div > div:nth-child(1) > div > div:nth-child(2) > div > div:nth-child(2) > div > div > div > div > div > div:nth-child(2) > div:nth-child(2) > div > div > div:nth-child(2)')
